@@ -65,6 +65,7 @@
       white-space: pre-line;
     }
 
+    /* UPDATED MARQUEE */
     .aura-marquee {
       margin-top: 0.8rem;
       border: 1px solid #000;
@@ -73,12 +74,18 @@
       overflow: hidden;
       font-size: 0.9rem;
       text-transform: lowercase;
+      position: relative;
+      white-space: nowrap;
     }
 
     .aura-marquee-inner {
       display: inline-block;
       white-space: nowrap;
       animation: aura-scroll 10s linear infinite;
+    }
+
+    .aura-marquee-inner span {
+      padding-right: 2rem; /* space between repeats */
     }
 
     @keyframes aura-scroll {
@@ -265,10 +272,22 @@
       <h1>˚⊹ ♡ KawaiiKamera ♡ ⊹˚</h1>
       ˚₊‧꒰ა ♪ ໒꒱ ‧₊˚
 
-      <!-- MARQUEE -->
+      <!-- UPDATED MARQUEE HTML -->
       <div class="aura-marquee">
         <div class="aura-marquee-inner">
-          ‧˚₊⊹ you have aura !! ⊹₊˚‧ ‧˚₊⊹ you have aura !! ⊹₊˚‧ ‧˚₊⊹ you have aura !! ⊹₊˚‧
+
+          <span>‧˚₊⊹ you have aura ⊹₊˚‧</span>
+          <span>‧˚₊⊹ swag af ⊹₊˚‧</span>
+          <span>‧˚₊⊹ super kawaii ⊹₊˚‧</span>
+           <span>‧˚₊⊹ u a baddie ⊹₊˚‧</span>
+           <span>‧˚₊⊹ you have aura ⊹₊˚‧</span>
+           <span>‧˚₊⊹ too much rizz ⊹₊˚‧</span>
+           <span>‧˚₊⊹ super kawaii ⊹₊˚‧</span>
+           <span>‧˚₊⊹ yas baddie ⊹₊˚‧</span>
+           <span>‧˚₊⊹ wow ⊹₊˚‧</span>
+          <span></span>
+          <span>‧</span>
+          
         </div>
       </div>
     </div>
@@ -528,7 +547,7 @@
         video.srcObject = stream;
         takeBtn.disabled = false;
         takeStripBtn.disabled = false;
-        statusText.textContent = "Camera is live ♪ say cheese!";
+        statusText.textContent = "Camera is live ૮꒰ ྀི >⸝⸝⸝< ྀི꒱ა !";
         if (statusDot) statusDot.classList.add("live");
       } catch (err) {
         console.error(err);
