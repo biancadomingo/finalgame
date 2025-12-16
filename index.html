@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Rhythm Game</title>
+
+<style>
+body {
+  background: black;
+  color: white;
+  font-family: Arial;
+  text-align: center;
+}
+
+#game {
+  position: fixed;
+  right: 90px;
+  top: 150px;
+  width: 360px;
+  height: 700px;
+  border: 2px solid white;
+}
+
+.lane {
+  position: absolute;
+  width: 90px;
+  height: 100%;
+  border-left: 1px solid gray;
+}
+
+.note {
+  position: absolute;
+  width: 80px;
+  height: 20px;
+  background: cyan;
+  left: 5px;
+}
+
+.hitline {
+  position: absolute;
+  bottom: 100px;
+  width: 100%;
+  height: 2px;
+  background: red;
+}
+</style>
+</head>
+
+<body>
+
+<h2>A S L ;</h2>
+
+<button onclick="play()">Play</button>
+<button onclick="record()">Record</button>
+<button onclick="exportChart()">Export Chart</button>
+<button onclick="song.play()">Test Song</button>
+
+<div id="game">
+  <div class="hitline"></div>
+</div>
+
+<audio id="song" src="song.mp3"></audio>
+
+<script>
+// ==========================
+// GLOBAL VARIABLES
+// ==========================
+
+const song = document.getElementById("song");
+
+let songTime = 0;          // like Scratch timer
+let isCharting = false;   // charting mode
+let notes = [];           // chart data
+
+const lanes = [0, 1, 2, 3];
+const keys = { a:0, s:1, l:2, ";":3 };
+const speed = 300;
+
+// ==========================
+// CREATE LANES
+// ==========================
+
+const game = document.getElementById("game");
+
+lanes.forEach(lane => {
+  const div = document.createElement("div");
+  div.className = "lane";
+  div.style.left = (lane * 90) + "px";
+  game.appendChild(div);
+});
+
+// ==========================
+// PLAY MODE
+// ==========================
+
+function play() {
+  song.currentTime = 0;
+  song.play();
+  notes.forEach(n => spawnNote(n));
+}
+
+// ==========================
+// RECORD MODE
+// ==========================
+
+function record() {
+  notes = [];
+  isCharting = true;
+  song.currentTime = 0;
+  song.play();
+}
+
+// Stop recording when song ends
+song.onended = () => {
+  isCharting = false;
+};
+
+// ==========================
+// SPAWN NOTES
+// ==========================
+
+function spawnNote(note) {
+  const el = document.createElement("div");
+  el.className = "note";
+  el.style.left = (note.lane * 90 + 5) + "px";
+  el.style.top = "-20px";
+  game.appendChild(el);
+
+  const start = performance.now();
+
+  function move(time) {
+    const y = (time - start) / 1000 * speed;
+    el.style.top = y + "px";
+    if (y < 600) requestAnimationFrame(move);
+    else el.remove();
+  }
+
+  requestAnimationFrame(move);
+}
+
+// ==========================
+// KEY INPUT (A S L ;)
+// ==========================
+
+document.addEventListener("keydown", e => {
+  if (!(e.key in keys)) return;
+
+  songTime = song.currentTime;
+
+  if (isCharting) {
+    notes.push({
+      time: songTime - 0.1,
+      lane: keys[e.key]
+    });
+    console.log(notes);
+  }
+});
+
+// ==========================
+// EXPORT CHART
+// ==========================
+
+function exportChart() {
+  console.log(JSON.stringify(notes, null, 2));
+  alert("Chart printed to console!");
+}
+</script>
+
+</body>
+</html>
